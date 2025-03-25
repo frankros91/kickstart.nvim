@@ -19,7 +19,7 @@
 =====================================================================
 =====================================================================
 
-What is Kickstart?
+  What is Kickstartd?
 
   Kickstart.nvim is *not* a distribution.
 
@@ -195,6 +195,18 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 
 -- Frank custom commands
 vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
+
+-- Black holes
+vim.keymap.set('n', '<leader>dd', '"_dd', { desc = 'Delete to black hole' })
+vim.keymap.set('n', '<leader>D', '"_D', { desc = 'Delete to black hole' })
+vim.keymap.set('v', '<leader>dd', '"_dd', { desc = 'Delete to black hole' })
+vim.keymap.set('v', '<leader>D', '"_D', { desc = 'Delete to black hole' })
+vim.keymap.set('n', 'c', '"_c', { desc = 'Change to black hole' })
+vim.keymap.set('n', 'C', '"_C', { desc = 'Change to black hole' })
+vim.keymap.set('v', 'c', '"_c', { desc = 'Change to black hole' })
+vim.keymap.set('v', 'C', '"_C', { desc = 'Change to black hole' })
+vim.keymap.set('v', 'p', '"_dP', { desc = 'Paste to black hole' })
+
 -- [[ Basic Autocommands ]]
 --  See `:help lua-guide-autocommands`
 
@@ -336,7 +348,6 @@ require('lazy').setup({
         { '<leader>r', group = '[R]ename' },
         { '<leader>f', group = '[F]ind' },
         { '<leader>t', group = '[T]oggle' },
-        { '<leader>h', group = 'Git [H]unk', mode = { 'n', 'v' } },
       },
     },
   },
@@ -555,6 +566,10 @@ require('lazy').setup({
           --  Most Language Servers support renaming across files, etc.
           map('<leader>rn', vim.lsp.buf.rename, '[R]e[n]ame')
 
+          -- LSP Hover
+          --  Most Language Servers support renaming across files, etc.
+          map('<leader>h', vim.lsp.buf.hover, '[R]e[n]ame')
+
           -- Execute a code action, usually your cursor needs to be on top of an error
           -- or a suggestion from your LSP for this to activate.
           map('<leader>ca', vim.lsp.buf.code_action, '[C]ode [A]ction', { 'n', 'x' })
@@ -673,7 +688,7 @@ require('lazy').setup({
         --    https://github.com/pmizio/typescript-tools.nvim
         --
         -- But for many setups, the LSP (`ts_ls`) will work just fine
-        -- ts_ls = {},
+        ts_ls = {},
         --
 
         lua_ls = {
@@ -708,6 +723,10 @@ require('lazy').setup({
       local ensure_installed = vim.tbl_keys(servers or {})
       vim.list_extend(ensure_installed, {
         'stylua', -- Used to format Lua code
+        'prettierd',
+        'typescript-language-server',
+        'tailwindcss-language-server',
+        'eslint-lsp',
       })
       require('mason-tool-installer').setup { ensure_installed = ensure_installed }
 
@@ -734,7 +753,7 @@ require('lazy').setup({
     cmd = { 'ConformInfo' },
     keys = {
       {
-        '<leader>f',
+        '<leader>fmt',
         function()
           require('conform').format { async = true, lsp_format = 'fallback' }
         end,
@@ -766,7 +785,10 @@ require('lazy').setup({
         -- python = { "isort", "black" },
         --
         -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        javascript = { 'prettierd', 'prettier', stop_after_first = true },
+        javascriptreact = { 'prettierd', 'prettier', stop_after_first = true },
+        typescript = { 'prettierd', 'prettier', stop_after_first = true },
+        typescriptreact = { 'prettierd', 'prettier', stop_after_first = true },
       },
     },
   },
@@ -989,7 +1011,7 @@ require('lazy').setup({
   -- require 'kickstart.plugins.debug',
   -- require 'kickstart.plugins.indent_line',
   -- require 'kickstart.plugins.lint',
-  -- require 'kickstart.plugins.autopairs',
+  require 'kickstart.plugins.autopairs',
   -- require 'kickstart.plugins.neo-tree',
   -- require 'kickstart.plugins.gitsigns', -- adds gitsigns recommend keymaps
 
