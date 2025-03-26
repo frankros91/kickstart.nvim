@@ -197,11 +197,8 @@ vim.keymap.set('n', '<C-k>', '<C-w><C-k>', { desc = 'Move focus to the upper win
 vim.keymap.set('n', '<leader>w', '<cmd>w<CR>', { desc = 'Save file' })
 vim.keymap.set('n', '<leader>/', 'gcc', { desc = 'Comment line', remap = true })
 vim.keymap.set('v', '<leader>/', 'gcc', { desc = 'Comment line', remap = true })
+
 -- Black holes
-vim.keymap.set('n', '<leader>dd', '"_dd', { desc = 'Delete to black hole' })
-vim.keymap.set('n', '<leader>D', '"_D', { desc = 'Delete to black hole' })
-vim.keymap.set('v', '<leader>dd', '"_dd', { desc = 'Delete to black hole' })
-vim.keymap.set('v', '<leader>D', '"_D', { desc = 'Delete to black hole' })
 vim.keymap.set('n', 'c', '"_c', { desc = 'Change to black hole' })
 vim.keymap.set('n', 'C', '"_C', { desc = 'Change to black hole' })
 vim.keymap.set('v', 'c', '"_c', { desc = 'Change to black hole' })
@@ -420,6 +417,9 @@ require('lazy').setup({
           ['ui-select'] = {
             require('telescope.themes').get_dropdown(),
           },
+        },
+        defaults = {
+          matching_strategy = 'regex',
         },
       }
 
@@ -843,7 +843,7 @@ require('lazy').setup({
             luasnip.lsp_expand(args.body)
           end,
         },
-        completion = { completeopt = 'menu,menuone,noinsert' },
+        -- completion = { completeopt = 'menu,menuone,noinsert' },
 
         -- For an understanding of why these mappings were
         -- chosen, you will need to read `:help ins-completion`
@@ -862,13 +862,13 @@ require('lazy').setup({
           -- Accept ([y]es) the completion.
           --  This will auto-import if your LSP supports it.
           --  This will expand snippets if the LSP sent a snippet.
-          ['<C-y>'] = cmp.mapping.confirm { select = true },
+          ['<Enter>'] = cmp.mapping.confirm { select = true },
 
           -- If you prefer more traditional completion keymaps,
           -- you can uncomment the following lines
-          --['<CR>'] = cmp.mapping.confirm { select = true },
-          --['<Tab>'] = cmp.mapping.select_next_item(),
-          --['<S-Tab>'] = cmp.mapping.select_prev_item(),
+          ['<CR>'] = cmp.mapping.confirm { select = true },
+          ['<Tab>'] = cmp.mapping.select_next_item(),
+          ['<S-Tab>'] = cmp.mapping.select_prev_item(),
 
           -- Manually trigger a completion from nvim-cmp.
           --  Generally you don't need this, because nvim-cmp will display
